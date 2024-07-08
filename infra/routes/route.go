@@ -10,4 +10,5 @@ func HandleRequests() {
 	http.HandleFunc("/", controller.Index)
 	http.HandleFunc("/new", controller.NewProduct)
 	http.HandleFunc("/insert", controller.InsertProduct)
+	http.HandleFunc("/delete", controller.DeleteProduct)
 }

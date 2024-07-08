@@ -31,15 +31,35 @@ func InsertProduct(w http.ResponseWriter, r *http.Request) {
 		name := r.FormValue("name")
 		description := r.FormValue("description")
 		price, err := strconv.ParseFloat(r.FormValue("price"), 64)
+
+		if err != nil {
+			log.Println("Error on convertion of price to float64")
+		}
+
 		amount, err := strconv.Atoi(r.FormValue("amount"))
 
 		if err != nil {
-			log.Println("Error on convertion of price to float64 or amount to int")
+			log.Println("Error on convertion of amount to int")
 		}
 
 		product := products.Product{Name: name, Price: price, Amount: amount, Description: description}
 		repositories.InsertProduct(db, product)
 	}
-	http.Redirect(w, r, "/", 301)
+	http.Redirect(w, r, "/", http.StatusMovedPermanently)
+	defer db.Close()
+}
+
+func DeleteProduct(w http.ResponseWriter, r *http.Request) {
+	db := infra.GetConnection()
+
+	id, err := strconv.Atoi(r.URL.Query().Get("id"))
+
+	if err != nil {
+		log.Println("Error getting product id")
+	}
+
+	repositories.DeleteProduct(db, id)
+	http.Redirect(w, r, "/", http.StatusMovedPermanently)
+
 	defer db.Close()
 }

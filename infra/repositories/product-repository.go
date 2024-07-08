@@ -50,3 +50,13 @@ func InsertProduct(connection *sql.DB, product products.Product) {
 
 	insert.Exec(product.Name, product.Description, product.Price, product.Amount)
 }
+
+func DeleteProduct(connection *sql.DB, id int) {
+	delete, err := connection.Prepare("DELETE FROM products WHERE id = $1")
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	delete.Exec(id)
+}
