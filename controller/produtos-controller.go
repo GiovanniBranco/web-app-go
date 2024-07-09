@@ -82,7 +82,6 @@ func EditProduct(w http.ResponseWriter, r *http.Request) {
 
 func UpdateProdut(w http.ResponseWriter, r *http.Request) {
 	db := infra.GetConnection()
-	fmt.Println(r.Method)
 	if r.Method == "POST" {
 		id, err := strconv.Atoi(r.FormValue("id"))
 
