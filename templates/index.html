@@ -33,6 +33,10 @@
                 <td>{{.Price}}</td>
                 <td>{{.Amount}}</td>
                 <td>
+                  <a href="/edit?id={{.Id}}" class="btn btn-info">
+                    Edit
+                  </a>
+                <td>
                   <button onclick="onDelete('{{.Id}}')" class="btn btn-danger">
                     Delete
                   </button>

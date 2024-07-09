@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -61,5 +62,51 @@ func DeleteProduct(w http.ResponseWriter, r *http.Request) {
 	repositories.DeleteProduct(db, id)
 	http.Redirect(w, r, "/", http.StatusMovedPermanently)
 
+	defer db.Close()
+}
+
+func EditProduct(w http.ResponseWriter, r *http.Request) {
+	db := infra.GetConnection()
+	id, err := strconv.Atoi(r.URL.Query().Get("id"))
+
+	if err != nil {
+		log.Println("Error getting product id")
+	}
+
+	product := repositories.GetProductById(db, id)
+
+	templates.ExecuteTemplate(w, "Edit-Product", product)
+
+	defer db.Close()
+}
+
+func UpdateProdut(w http.ResponseWriter, r *http.Request) {
+	db := infra.GetConnection()
+	fmt.Println(r.Method)
+	if r.Method == "POST" {
+		id, err := strconv.Atoi(r.FormValue("id"))
+
+		if err != nil {
+			log.Println("Error getting product id")
+		}
+
+		name := r.FormValue("name")
+		description := r.FormValue("description")
+		price, err := strconv.ParseFloat(r.FormValue("price"), 64)
+
+		if err != nil {
+			log.Println("Error on convertion of price to float64")
+		}
+
+		amount, err := strconv.Atoi(r.FormValue("amount"))
+
+		if err != nil {
+			log.Println("Error on convertion of amount to int")
+		}
+
+		productUpdated := products.Product{Id: id, Name: name, Price: price, Amount: amount, Description: description}
+		repositories.EditProduct(db, productUpdated)
+	}
+	http.Redirect(w, r, "/", http.StatusMovedPermanently)
 	defer db.Close()
 }

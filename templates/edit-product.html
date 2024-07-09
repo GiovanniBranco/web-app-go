@@ -1,20 +1,26 @@
-{{define "New-Product"}} {{template "_head"}}
+{{define "Edit-Product"}} {{template "_head"}}
 
 <body>
   {{template "_menu"}}
   <div class="container">
     <div class="jumbotron jumbotron-fluid">
       <div class="container">
-        <h1 class="display-5">New product</h1>
+        <h1 class="display-5">Edit product</h1>
         <p class="lead">Insert details</p>
       </div>
     </div>
-    <form method="POST" action="insert">
+    <form method="POST" action="update">
+      <input type="hidden" name="id" value="{{.Id}}" />
       <div class="row">
         <div class="col-sm-8">
           <div class="form-group">
             <label for="name">Name:</label>
-            <input type="text" name="name" class="form-control" />
+            <input
+              type="text"
+              name="name"
+              class="form-control"
+              value="{{.Name}}"
+            />
           </div>
         </div>
       </div>
@@ -22,7 +28,12 @@
         <div class="col-sm-8">
           <div class="form-group">
             <label for="description">Description:</label>
-            <input type="text" name="description" class="form-control" />
+            <input
+              type="text"
+              name="description"
+              class="form-control"
+              value="{{.Description}}"
+            />
           </div>
         </div>
       </div>
@@ -35,6 +46,7 @@
               name="price"
               class="form-control"
               step="0.01"
+              value="{{.Price}}"
             />
           </div>
         </div>
@@ -43,11 +55,16 @@
         <div class="col-sm-2">
           <div class="form-group">
             <label for="amount">Amount:</label>
-            <input type="number" name="amount" class="form-control" />
+            <input
+              type="number"
+              name="amount"
+              class="form-control"
+              value="{{.Amount}}"
+            />
           </div>
         </div>
       </div>
-      <button type="submit" value="create" class="btn btn-success">Create</button>
+      <button type="submit" value="Save" class="btn btn-success">Save</button>
       <a class="btn btn-info" href="/">Return</a>
     </form>
   </div>
